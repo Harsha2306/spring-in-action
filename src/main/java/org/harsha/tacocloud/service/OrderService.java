@@ -19,6 +19,8 @@ public class OrderService {
 
   private final IngredientRepository ingredientRepository;
 
+  private final AppUserService appUserService;
+
   public void processOrder(TacoOrder order) {
     for (Taco taco : order.getTacos()) {
       List<String> ingredientIds = taco.getIngredients().stream().map(Ingredient::getId).toList();
@@ -30,6 +32,7 @@ public class OrderService {
 
       taco.setIngredients(persistentIngredients);
       taco.setTacoOrder(order);
+      taco.setAppUser(appUserService.getCurrentUserPrinciple());
 
       if (taco.getCreatedAt() == null) taco.setCreatedAt(new Date());
     }

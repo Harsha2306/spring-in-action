@@ -23,15 +23,18 @@ public class Taco {
   @Size(min = 1, message = "You must choose at least 1 ingredient")
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
-          name = "taco_ingredients",
-          joinColumns = @JoinColumn(name = "taco_id"),
-          inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-  )
+      name = "taco_ingredients",
+      joinColumns = @JoinColumn(name = "taco_id"),
+      inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
   private List<Ingredient> ingredients = new ArrayList<>();
 
   @ManyToOne
   @JoinColumn(name = "taco_order_id")
   private TacoOrder tacoOrder;
-  
+
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private AppUser appUser;
+
   private Date createdAt = new Date();
 }
