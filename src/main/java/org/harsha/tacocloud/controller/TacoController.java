@@ -5,8 +5,10 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.harsha.tacocloud.dto.SuccessResponse;
+import org.harsha.tacocloud.dto.TacoResponseDto;
 import org.harsha.tacocloud.entity.Ingredient;
 import org.harsha.tacocloud.service.IngredientService;
+import org.harsha.tacocloud.service.TacoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class TacoController {
   private final IngredientService ingredientService;
 
-  @GetMapping
+  private final TacoService tacoService;
+
+  @GetMapping("ingredients")
   public ResponseEntity<SuccessResponse<Map<Ingredient.Type, List<Ingredient>>>> getIngredients() {
     return ResponseEntity.status(HttpStatus.OK)
         .body(new SuccessResponse<>(ingredientService.getIngredients()));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<TacoResponseDto>> getTacosOrderedByUser() {
+    return ResponseEntity.status(HttpStatus.OK).body(tacoService.getTacosOrderedByUser());
   }
 }

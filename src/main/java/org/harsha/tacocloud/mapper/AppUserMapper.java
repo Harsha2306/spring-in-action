@@ -5,7 +5,7 @@ import org.harsha.tacocloud.entity.AppUser;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper {
+public class AppUserMapper {
   public AppUser mapToUer(UserRequestDto userRequestDto) {
     return AppUser.builder()
         .username(userRequestDto.username())

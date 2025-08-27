@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.harsha.tacocloud.dto.UserRequestDto;
 import org.harsha.tacocloud.entity.AppUser;
-import org.harsha.tacocloud.mapper.UserMapper;
+import org.harsha.tacocloud.mapper.AppUserMapper;
 import org.harsha.tacocloud.repository.AppUserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class AppUserService implements UserDetailsService {
   private final AppUserRepository appUserRepository;
   private final PasswordEncoder passwordEncoder;
-  private final UserMapper userMapper;
+  private final AppUserMapper appUserMapper;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,7 +31,7 @@ public class AppUserService implements UserDetailsService {
   }
 
   public void registerUser(UserRequestDto userRequestDto) {
-    AppUser appUser = userMapper.mapToUer(userRequestDto);
+    AppUser appUser = appUserMapper.mapToUer(userRequestDto);
     appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
     appUserRepository.save(appUser);
     log.info("user: {} saved", appUser);

@@ -30,7 +30,7 @@ public record UserRequestDto(
         String zip,
     @NotBlank(message = "Phone number is required")
         @Pattern(
-            regexp = "^(\\\\+\\\\d{1,3}[- ]?)?\\\\d{10,15}$",
+            regexp = "^\\d{10,15}$",
             message =
-                "Phone number must be a valid format (e.g., (123) 456-7890, 123-456-7890, or +1234567890)")
+                "Phone number must be valid")
         String phone) {}
