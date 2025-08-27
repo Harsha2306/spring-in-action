@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.harsha.tacocloud.dto.SuccessResponse;
 import org.harsha.tacocloud.entity.Ingredient;
 import org.harsha.tacocloud.service.IngredientService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,8 @@ public class TacoController {
   private final IngredientService ingredientService;
 
   @GetMapping
-  public ResponseEntity<SuccessResponse<Map<Ingredient.Type, List<String>>>> getIngredients() {
-    return ResponseEntity.ok(new SuccessResponse<>(ingredientService.getIngredients()));
+  public ResponseEntity<SuccessResponse<Map<Ingredient.Type, List<Ingredient>>>> getIngredients() {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(new SuccessResponse<>(ingredientService.getIngredients()));
   }
 }

@@ -47,9 +47,4 @@ public class TacoOrder {
   private List<Taco> tacos = new ArrayList<>();
 
   private Date placedAt;
-
-  public void addTaco(Taco taco) {
-    this.tacos.add(taco);
-    taco.setTacoOrder(this);
-  }
 }

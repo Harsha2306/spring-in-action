@@ -33,10 +33,8 @@ public class IngredientService {
     log.info("{} ingredients loaded", ingredients.size());
   }
 
-  public Map<Ingredient.Type, List<String>> getIngredients() {
+  public Map<Ingredient.Type, List<Ingredient>> getIngredients() {
     return ingredientRepository.findAll().stream()
-        .collect(
-            Collectors.groupingBy(
-                Ingredient::getType, Collectors.mapping(Ingredient::getName, Collectors.toList())));
+        .collect(Collectors.groupingBy(Ingredient::getType));
   }
 }

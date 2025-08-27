@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.harsha.tacocloud.dto.SuccessResponse;
 import org.harsha.tacocloud.entity.TacoOrder;
 import org.harsha.tacocloud.service.OrderService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,6 @@ public class OrderController {
   @PostMapping
   public ResponseEntity<SuccessResponse<String>> processOrder(@RequestBody @Valid TacoOrder order) {
     orderService.processOrder(order);
-    return ResponseEntity.ok().body(new SuccessResponse<>("order created"));
+    return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>("order created"));
   }
 }

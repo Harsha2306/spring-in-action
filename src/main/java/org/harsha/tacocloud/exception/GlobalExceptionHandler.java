@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import org.harsha.tacocloud.dto.ErrorResponse;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -34,12 +35,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
           String validationMsg = error.getDefaultMessage();
           validationErrors.put(fieldName, validationMsg);
         });
-    return ResponseEntity.badRequest()
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(new ErrorResponse("validation error", validationErrors));
+  }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ErrorResponse> handleException(IllegalArgumentException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(new ErrorResponse(ex.getMessage(), new HashMap<>()));
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-    return ResponseEntity.badRequest().body(new ErrorResponse(ex.getMessage(), new HashMap<>()));
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(new ErrorResponse("an unexcepted error occurred" + ex.getMessage(), new HashMap<>()));
   }
 }
