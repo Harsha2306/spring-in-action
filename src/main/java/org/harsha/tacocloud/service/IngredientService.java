@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.harsha.tacocloud.entity.Ingredient;
+import org.harsha.tacocloud.exception.IngredientNotFoundException;
 import org.harsha.tacocloud.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,15 @@ public class IngredientService {
   public Map<Ingredient.Type, List<Ingredient>> getIngredients() {
     return ingredientRepository.findAll().stream()
         .collect(Collectors.groupingBy(Ingredient::getType));
+  }
+
+  public Ingredient getIngredientById(String ingredientId) {
+    log.info("getting ingredient with id:{}", ingredientId);
+    return ingredientRepository
+        .findById(ingredientId)
+        .orElseThrow(
+            () ->
+                new IngredientNotFoundException(
+                    "ingredient with id:" + ingredientId + " not found"));
   }
 }

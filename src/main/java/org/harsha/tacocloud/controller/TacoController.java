@@ -12,6 +12,7 @@ import org.harsha.tacocloud.service.TacoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +34,11 @@ public class TacoController {
   @GetMapping
   public ResponseEntity<List<TacoResponseDto>> getTacosOrderedByUser() {
     return ResponseEntity.status(HttpStatus.OK).body(tacoService.getTacosOrderedByUser());
+  }
+
+  @GetMapping("ingredients/{ingredientId}")
+  public ResponseEntity<Ingredient> getIngredientById(@PathVariable String ingredientId) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(ingredientService.getIngredientById(ingredientId));
   }
 }

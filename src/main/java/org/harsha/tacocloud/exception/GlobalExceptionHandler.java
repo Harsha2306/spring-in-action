@@ -39,6 +39,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(new ErrorResponse("validation error", validationErrors));
   }
 
+  @ExceptionHandler(IngredientNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleException(IngredientNotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new ErrorResponse(ex.getMessage(), new HashMap<>()));
+  }
+
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<ErrorResponse> handleException(IllegalArgumentException ex) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
