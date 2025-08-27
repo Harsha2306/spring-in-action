@@ -1,12 +1,18 @@
 package org.harsha.tacocloud.entity;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ingredient {
-  private final String id;
-  private final String name;
-  private final Type type;
+  @Id private String id;
+  private String name;
+  private Type type;
 
   public enum Type {
     WRAP,

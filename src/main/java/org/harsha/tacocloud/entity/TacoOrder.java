@@ -1,16 +1,21 @@
 package org.harsha.tacocloud.entity;
 
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 @Data
+@Entity
 public class TacoOrder {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
   @NotBlank(message = "Delivery name is required")
   private String deliveryName;
 
@@ -35,5 +40,16 @@ public class TacoOrder {
   @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
   private String ccCVV;
 
-  @Valid private List<Taco> tacos = new ArrayList<>();
+  @OneToMany(mappedBy = "tacoOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @Valid
+  @NotNull
+  @Size(min = 1, message = "Order must contain at least one taco")
+  private List<Taco> tacos = new ArrayList<>();
+
+  private Date placedAt;
+
+  public void addTaco(Taco taco) {
+    this.tacos.add(taco);
+    taco.setTacoOrder(this);
+  }
 }
