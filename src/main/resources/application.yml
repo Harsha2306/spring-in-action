@@ -26,3 +26,9 @@ spring:
 
   profiles:
     active: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
